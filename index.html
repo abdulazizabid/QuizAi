@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuizAi - AI-Powered Quiz & Study Tool</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="navbar">
+    <div class="logo-container">
+      <a href="#" class="logo">
+        <span class="logo-green">Quiz</span>
+        <span class="logo-text">Ai</span>
+      </a>
+    </div>
+
+    <nav class="nav-links">
+      <a href="#test-exam" class="nav-btn">Test-Exam</a>
+      <a href="#quiz" class="nav-btn">Quiz</a>
+      <a href="#flashcard" class="nav-btn">Flashcard</a>
+    </nav>
+
+    <div class="auth-section">
+      <button class="profile-btn" onclick="toggleProfileMenu()">
+        <svg class="profile-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+      </button>
+      
+      <!-- Profile Dropdown Menu -->
+      <div class="profile-menu" id="profileMenu">
+        <div class="profile-header">
+          <div class="profile-avatar">JD</div>
+          <div class="profile-info">
+            <p class="profile-name">John Doe</p>
+            <p class="profile-email">john@example.com</p>
+          </div>
+        </div>
+        <hr class="menu-divider">
+        <a href="#" class="menu-item">My Quizzes</a>
+        <a href="#" class="menu-item">My Tests</a>
+        <a href="#" class="menu-item">Settings</a>
+        <a href="#" class="menu-item">About</a>
+        <hr class="menu-divider">
+        <a href="#" class="menu-item logout">Logout</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-content">
+      <div class="badge">🚀 AI-Powered Learning</div>
+      <h1 class="hero-title">
+        Transform Your Study Materials <span class="highlight">with AI</span>
+      </h1>
+      <p class="hero-description">
+        QuizAi instantly converts your PDFs, notes, and documents into interactive quizzes, tests, and flashcards. Practice, share, and master any subject with intelligent AI-driven tools.
+      </p>
+      <a href="#test-exam" class="cta-button">Get started →</a>
+    </div>
+
+    <div class="hero-image-container">
+      <div class="circle-bg"></div>
+      <div class="card-stack">
+        <div class="floating-badge badge-top">🤖 AI Powered</div>
+        <div class="quiz-card">
+          <span class="question-number">QUESTION 1 OF 10</span>
+          <h3 class="question-text">What is machine learning?</h3>
+          <div class="options">
+            <div class="option"><span class="opt-label">A</span> Human learning</div>
+            <div class="option selected"><span class="opt-label">B</span> Algorithms that learn from data <span class="check">✓</span></div>
+            <div class="option"><span class="opt-label">C</span> Computer memory</div>
+            <div class="option"><span class="opt-label">D</span> Internet connection</div>
+          </div>
+        </div>
+        <div class="floating-badge badge-bottom">⚡ Instant Results</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- How It Works Section -->
+  <section class="how-it-works">
+    <div class="section-container">
+      <h2 class="section-title">How QuizAi Works</h2>
+      <p class="section-subtitle">Three simple steps to transform your learning</p>
+      
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h3>Upload Your Material</h3>
+          <p>Simply upload PDFs, images, or paste your notes directly into QuizAi</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h3>AI Generates Content</h3>
+          <p>Our advanced AI analyzes your material and creates high-quality questions</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h3>Study & Share</h3>
+          <p>Practice immediately with shareable links for your study group</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Test-Exam Section (Box Colored: Soft Blue) -->
+  <section id="test-exam" class="feature-section box-section blue-box">
+    <div class="feature-container">
+      <div class="feature-content">
+        <h2 class="feature-title">Test-Exam Mode</h2>
+        <p class="feature-description">
+          Create comprehensive exams and tests from your study materials. Define the number of questions, difficulty level, and time limits. Get detailed performance analytics and identify areas for improvement.
+        </p>
+        <div class="feature-features">
+          <div class="feature-item">
+            <span class="feature-icon">📊</span>
+            <span>Detailed Analytics</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">⏱️</span>
+            <span>Timed Tests</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">📈</span>
+            <span>Performance Tracking</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🎯</span>
+            <span>Custom Difficulty</span>
+          </div>
+        </div>
+        <div class="upload-section">
+          <label class="upload-box" for="test-upload">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            <p>Upload PDF or Image</p>
+            <span class="upload-hint">or drag and drop</span>
+          </label>
+          <input type="file" id="test-upload" accept=".pdf,.jpg,.jpeg,.png" hidden>
+        </div>
+      </div>
+
+      <div class="demo-section test-demo">
+        <h3 class="demo-title">Test Sample</h3>
+        <div class="test-card">
+          <div class="test-header">
+            <span class="test-progress">Q1 of 3</span>
+            <span class="test-timer">15:32</span>
+          </div>
+          <h4 class="test-question">Which of the following is a renewable energy source?</h4>
+          <div class="test-options">
+            <div class="test-option">
+              <input type="radio" name="test-q1" id="test-a1">
+              <label for="test-a1">Coal</label>
+            </div>
+            <div class="test-option">
+              <input type="radio" name="test-q1" id="test-a2">
+              <label for="test-a2">Solar Energy</label>
+            </div>
+            <div class="test-option">
+              <input type="radio" name="test-q1" id="test-a3">
+              <label for="test-a3">Natural Gas</label>
+            </div>
+            <div class="test-option">
+              <input type="radio" name="test-q1" id="test-a4">
+              <label for="test-a4">Oil</label>
+            </div>
+          </div>
+          <button class="next-btn">Next Question →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section class="benefits-section">
+    <div class="section-container">
+      <h2 class="section-title">Why Students Love QuizAi</h2>
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <div class="benefit-icon">⚡</div>
+          <h3>Save Time</h3>
+          <p>Generate study materials in seconds instead of hours</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">🧠</div>
+          <h3>Smarter Learning</h3>
+          <p>AI-powered questions target key concepts</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">📱</div>
+          <h3>Study Anywhere</h3>
+          <p>Access your materials on any device</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">👥</div>
+          <h3>Share with Friends</h3>
+          <p>Collaborate and learn together with shared links</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">📊</div>
+          <h3>Track Progress</h3>
+          <p>Detailed insights into your learning journey</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">🎓</div>
+          <h3>Exam Ready</h3>
+          <p>Practice with realistic exam-style questions</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quiz Section (Box Colored: Warm Peach) -->
+  <section id="quiz" class="feature-section box-section peach-box">
+    <div class="feature-container">
+      <div class="feature-content">
+        <h2 class="feature-title">Quiz Mode</h2>
+        <p class="feature-description">
+          Generate quick, engaging quizzes to reinforce learning. Perfect for quick assessments and knowledge checks. Get instant feedback and track your progress.
+        </p>
+        <div class="feature-features">
+          <div class="feature-item">
+            <span class="feature-icon">⚡</span>
+            <span>Instant Feedback</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🎯</span>
+            <span>Targeted Learning</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">📊</span>
+            <span>Score Tracking</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🔄</span>
+            <span>Retake Options</span>
+          </div>
+        </div>
+        <div class="upload-section">
+          <label class="upload-box" for="quiz-upload">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            <p>Upload PDF or Image</p>
+            <span class="upload-hint">or drag and drop</span>
+          </label>
+          <input type="file" id="quiz-upload" accept=".pdf,.jpg,.jpeg,.png" hidden>
+        </div>
+      </div>
+
+      <div class="demo-section quiz-demo">
+        <h3 class="demo-title">Quiz Sample</h3>
+        <div class="quiz-demo-card">
+          <span class="quiz-progress">Question 2 of 5</span>
+          <h4 class="quiz-question">What is the capital of France?</h4>
+          <div class="quiz-options">
+            <div class="quiz-option">
+              <span class="quiz-opt-label">A</span>
+              <span>London</span>
+            </div>
+            <div class="quiz-option selected">
+              <span class="quiz-opt-label">B</span>
+              <span>Paris</span>
+              <span class="quiz-check">✓</span>
+            </div>
+            <div class="quiz-option">
+              <span class="quiz-opt-label">C</span>
+              <span>Berlin</span>
+            </div>
+            <div class="quiz-option">
+              <span class="quiz-opt-label">D</span>
+              <span>Madrid</span>
+            </div>
+          </div>
+          <div class="quiz-feedback">Correct! Well done.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Use Cases Section -->
+  <section class="use-cases">
+    <div class="section-container">
+      <h2 class="section-title">Perfect For Every Learner</h2>
+      <p class="section-subtitle">From students to professionals, everyone benefits from QuizAi</p>
+      
+      <div class="use-cases-grid">
+        <div class="use-case-card">
+          <span class="use-case-icon">🎓</span>
+          <h3>Medical & Law Students</h3>
+          <p>Turn dense readings into review cards and practice exams. Master complex concepts with instant feedback.</p>
+          <a href="#" class="use-case-link">Learn more →</a>
+        </div>
+        <div class="use-case-card">
+          <span class="use-case-icon">🌍</span>
+          <h3>Language Learners</h3>
+          <p>Convert vocab lists into interactive drills and quizzes. Practice pronunciation and comprehension.</p>
+          <a href="#" class="use-case-link">Learn more →</a>
+        </div>
+        <div class="use-case-card">
+          <span class="use-case-icon">📚</span>
+          <h3>Teachers & Educators</h3>
+          <p>Create assessments in minutes. Track student progress and generate class-wide analytics.</p>
+          <a href="#" class="use-case-link">Learn more →</a>
+        </div>
+        <div class="use-case-card">
+          <span class="use-case-icon">💼</span>
+          <h3>Certification Prep</h3>
+          <p>Master long-form study guides with intelligent spacing. Get realistic exam simulations.</p>
+          <a href="#" class="use-case-link">Learn more →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Flashcard Section (Box Colored: Light Mint Green) -->
+  <section id="flashcard" class="feature-section box-section green-box">
+    <div class="feature-container">
+      <div class="feature-content">
+        <h2 class="feature-title">Flashcard Mode</h2>
+        <p class="feature-description">
+          Create beautiful, interactive flashcards for memorization and spaced repetition. Study smarter with intelligent card sequencing and progress tracking.
+        </p>
+        <div class="feature-features">
+          <div class="feature-item">
+            <span class="feature-icon">🎴</span>
+            <span>Spaced Repetition</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🔄</span>
+            <span>Smart Sequencing</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">📚</span>
+            <span>Deck Management</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🎯</span>
+            <span>Retention Tracking</span>
+          </div>
+        </div>
+        <div class="upload-section">
+          <label class="upload-box" for="flashcard-upload">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            <p>Upload PDF or Image</p>
+            <span class="upload-hint">or drag and drop</span>
+          </label>
+          <input type="file" id="flashcard-upload" accept=".pdf,.jpg,.jpeg,.png" hidden>
+        </div>
+      </div>
+
+      <div class="demo-section flashcard-demo">
+        <h3 class="demo-title">Flashcard Sample</h3>
+        <div class="flashcard-container">
+          <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+              <div class="flashcard-front">
+                <p>Q: What is photosynthesis?</p>
+              </div>
+              <div class="flashcard-back">
+                <p>A: The process by which plants use sunlight to synthesize foods from CO₂ and water.</p>
+              </div>
+            </div>
+          </div>
+          <div class="flashcard-controls">
+            <button class="card-btn">← Previous</button>
+            <span class="card-counter">Card 3 of 8</span>
+            <button class="card-btn">Next →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats-section">
+    <div class="section-container">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number">50K+</div>
+          <div class="stat-label">Active Students</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">100K+</div>
+          <div class="stat-label">Quizzes Created</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">4.8★</div>
+          <div class="stat-label">User Rating</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">15M+</div>
+          <div class="stat-label">Questions Generated</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why QuizAi Section -->
+  <section class="info-banner-section">
+    <div class="info-banner-card">
+      <div class="pill-badge pill-green">Why QuizAi?</div>
+      <h2 class="banner-title">Your learning, powered by AI</h2>
+      <p class="banner-description">
+        <strong>QuizAi</strong> transforms how you study by converting PDFs, documents, and notes into 
+        interactive learning materials. Whether you're preparing for exams, learning a new topic, or teaching others, 
+        <strong>QuizAi</strong> adapts to your needs with intelligent features and real-time feedback.
+      </p>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq-section">
+    <div class="section-container">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <p class="section-subtitle">Find answers to common questions about QuizAi</p>
+      
+      <div class="faq-grid">
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            <span>What file formats does QuizAi support?</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>QuizAi supports PDF files and image formats (JPG, PNG). You can also paste text directly or share links to Google Docs, YouTube videos, and ChatGPT conversations.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            <span>How long does it take to generate a quiz?</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Most quizzes are generated in less than 30 seconds. Complex documents or high question counts may take up to 2-3 minutes. You'll receive a notification when your quiz is ready.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            <span>Can I share my quizzes with others?</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Yes! Every quiz comes with a shareable link. You can share it with classmates, teachers, or anyone. Choose whether they can view, take the quiz, or see answers.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            <span>Is my uploaded content stored securely?</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Yes, we use enterprise-grade encryption and secure servers. Your data is never shared with third parties and is deleted within 30 days if you don't explicitly keep it.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            <span>How much does QuizAi cost?</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>QuizAi is free to get started! Free users can create up to 3 quizzes per month. Upgrade to Premium for unlimited quizzes, advanced analytics, and priority support.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            <span>Can I customize the questions generated?</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Absolutely! You can edit, add, or remove questions before publishing. You can also adjust difficulty levels, question types, and specify topics to focus on.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            <span>Do you have a mobile app?</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Yes! QuizAi is fully optimized for mobile. Use our responsive web app or download our native iOS and Android apps for seamless studying on the go.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-final-section">
+    <div class="section-container">
+      <h2>Ready to transform your studying?</h2>
+      <p>Join thousands of students using QuizAi to ace their exams</p>
+      <a href="#" class="cta-final-button">Start Creating Quizzes →</a>
+    </div>
+  </section>
+
+  <!-- Simplified Student Project Footer -->
+  <footer class="simple-footer">
+    <div class="section-container">
+      <div class="simple-footer-content">
+        <!-- Project Basic Info -->
+        <div class="simple-footer-brand">
+          <h3>QuizAi</h3>
+          <p class="contact-info"> Phone : 📞 01521718497</p>
+          <p class="contact-info"> Email : 📧 quizai@example.com</p>
+        </div>
+
+        <!-- Section Links -->
+        <div class="simple-footer-links">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="#test-exam">Test-Exam</a></li>
+            <li><a href="#quiz">Quiz Mode</a></li>
+            <li><a href="#flashcard">Flashcard</a></li>
+          </ul>
+        </div>
+
+        <!-- Pages Links -->
+        <div class="simple-footer-links">
+          <h4>Pages</h4>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <!-- Social Media Links -->
+        <div class="simple-footer-social">
+          <h4>Follow Us</h4>
+          <div class="social-links">
+            <a href="#">GitHub</a>
+            <a href="#">LinkedIn</a>
+            <a href="#">Twitter</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="simple-footer-bottom">
+        <p>&copy; 2026 QuizAi. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
