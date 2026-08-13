@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Exam - QuizGen AI</title>
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/exam.css">
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <header class="app-navbar">
+
+    <a href="../index.html" class="logo">
+      <span class="logo-green">QuizGen</span>
+      <span class="logo-text">AI</span>
+    </a>
+
+    <nav class="app-nav">
+      <a href="../index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="create-exam.html">Create Exam</a>
+      <a href="profile.html">My Profile</a>
+    </nav>
+
+  </header>
+
+
+  <main class="app-container">
+
+    <!-- Exam Top -->
+    <section class="exam-top">
+
+      <div>
+        <h1 class="page-title">Your Exam</h1>
+        <p id="materialName" class="page-subtitle">
+          Study Material
+        </p>
+      </div>
+
+      <div class="timer-box">
+        <span>Time Left</span>
+        <strong id="timer">30:00</strong>
+      </div>
+
+    </section>
+
+
+    <div class="exam-layout">
+
+      <!-- Question Area -->
+      <section class="question-card">
+
+        <div class="question-header">
+
+          <span id="questionNumber">
+            Question 1
+          </span>
+
+          <span id="questionType" class="question-type">
+            MCQ
+          </span>
+
+        </div>
+
+
+        <h2 id="questionText">
+          Question will appear here.
+        </h2>
+
+
+        <div id="answerArea"></div>
+
+
+        <div class="question-actions">
+
+          <button
+            type="button"
+            id="prevBtn"
+            class="secondary-btn">
+            ← Previous
+          </button>
+
+          <button
+            type="button"
+            id="nextBtn"
+            class="primary-btn">
+            Next →
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <!-- Question Navigator -->
+      <aside class="question-sidebar">
+
+        <h3>Questions</h3>
+
+        <div
+          id="questionNavigator"
+          class="question-grid">
+        </div>
+
+        <button
+          id="submitExamBtn"
+          class="primary-btn submit-btn">
+          Submit Exam
+        </button>
+
+      </aside>
+
+    </div>
+
+  </main>
+
+
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/exam.js"></script>
+
+</body>
+</html>

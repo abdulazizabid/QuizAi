@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>My Profile - QuizGen AI</title>
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/profile.css">
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <header class="app-navbar">
+
+    <a href="../index.html" class="logo">
+      <span class="logo-green">QuizGen</span>
+      <span class="logo-text">AI</span>
+    </a>
+
+    <nav class="app-nav">
+      <a href="../index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="create-exam.html">Create Exam</a>
+      <a href="profile.html" class="active">My Profile</a>
+
+      <button
+        id="logoutBtn"
+        class="secondary-btn">
+        Sign Out
+      </button>
+    </nav>
+
+  </header>
+
+
+  <main class="app-container">
+
+    <div class="profile-heading">
+
+      <h1 class="page-title">
+        My Profile
+      </h1>
+
+      <p class="page-subtitle">
+        Manage your information and track your learning progress.
+      </p>
+
+    </div>
+
+
+    <!-- Tabs -->
+
+    <div class="profile-tabs">
+
+      <button
+        class="profile-tab active"
+        data-tab="personal">
+        Personal Info
+      </button>
+
+      <button
+        class="profile-tab"
+        data-tab="progress">
+        Progress
+      </button>
+
+      <button
+        class="profile-tab"
+        data-tab="history">
+        Exam History
+      </button>
+
+    </div>
+
+
+    <!-- Personal Info -->
+
+    <section
+      id="personal"
+      class="profile-panel active">
+
+      <div class="profile-card">
+
+        <div class="avatar">
+          S
+        </div>
+
+        <div>
+
+          <h2 id="profileName">
+            Student
+          </h2>
+
+          <p id="profileEmail">
+            student@example.com
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="info-card">
+
+        <h2>Personal Information</h2>
+
+        <div class="info-row">
+          <span>Full Name</span>
+          <strong id="infoName">Student</strong>
+        </div>
+
+        <div class="info-row">
+          <span>Email</span>
+          <strong id="infoEmail">
+            student@example.com
+          </strong>
+        </div>
+
+        <div class="info-row">
+          <span>Member Since</span>
+          <strong>August 2026</strong>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- Progress -->
+
+    <section
+      id="progress"
+      class="profile-panel">
+
+      <div class="progress-stats">
+
+        <div class="profile-stat-card">
+          <span>Total Exams</span>
+          <strong id="profileTotalExams">0</strong>
+        </div>
+
+        <div class="profile-stat-card">
+          <span>Average Score</span>
+          <strong id="profileAverage">0%</strong>
+        </div>
+
+        <div class="profile-stat-card">
+          <span>Best Score</span>
+          <strong id="profileBest">0%</strong>
+        </div>
+
+      </div>
+
+
+      <div class="progress-card">
+
+        <h2>Performance Over Time</h2>
+
+        <div
+          id="progressChart"
+          class="progress-chart">
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- History -->
+
+    <section
+      id="history"
+      class="profile-panel">
+
+      <div class="history-card">
+
+        <h2>Exam History</h2>
+
+        <div class="table-wrapper">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>Material</th>
+                <th>Score</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+
+            <tbody id="historyTable">
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/profile.js"></script>
+
+</body>
+</html>

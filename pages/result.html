@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Exam Result - QuizGen AI</title>
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/result.css">
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <header class="app-navbar">
+
+    <a href="../index.html" class="logo">
+      <span class="logo-green">QuizGen</span>
+      <span class="logo-text">AI</span>
+    </a>
+
+    <nav class="app-nav">
+      <a href="../index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="create-exam.html">Create Exam</a>
+      <a href="profile.html">My Profile</a>
+    </nav>
+
+  </header>
+
+
+  <main class="app-container">
+
+    <!-- Result Header -->
+    <section class="result-header">
+
+      <span class="result-icon">🎉</span>
+
+      <h1>Exam Completed</h1>
+
+      <p id="resultMaterial">
+        Study Material
+      </p>
+
+    </section>
+
+
+    <!-- Score Cards -->
+    <section class="result-stats">
+
+      <div class="result-stat-card score-card">
+        <span>Score</span>
+        <strong id="score">0%</strong>
+      </div>
+
+      <div class="result-stat-card">
+        <span>Correct</span>
+        <strong id="correctCount">0</strong>
+      </div>
+
+      <div class="result-stat-card">
+        <span>Total Questions</span>
+        <strong id="totalQuestions">0</strong>
+      </div>
+
+    </section>
+
+
+    <!-- Review -->
+    <section>
+
+      <h2 class="review-title">
+        Answer Review
+      </h2>
+
+      <div id="resultContainer"></div>
+
+    </section>
+
+
+    <!-- Actions -->
+    <div class="result-actions">
+
+      <a
+        href="dashboard.html"
+        class="secondary-btn">
+        Dashboard
+      </a>
+
+      <a
+        href="create-exam.html"
+        class="primary-btn">
+        Create Another Exam
+      </a>
+
+    </div>
+
+  </main>
+
+
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/result.js"></script>
+
+</body>
+</html>

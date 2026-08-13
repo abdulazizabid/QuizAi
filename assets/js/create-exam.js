@@ -138,9 +138,11 @@ examForm.addEventListener("submit", (event) => {
   */
 
 
-  alert(
-    "Frontend configuration completed.\n" +
-    "AI exam generation will be connected with the backend later."
-  );
+sessionStorage.setItem(
+  "examConfig",
+  JSON.stringify(examConfig)
+);
+
+window.location.href = "exam.html";
 
 });
