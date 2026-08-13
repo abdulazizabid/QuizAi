@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Dashboard - QuizGen AI</title>
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/dashboard.css">
+</head>
+
+<body>
+
+  <!-- Navbar -->
+
+  <header class="app-navbar">
+
+    <a href="../index.html" class="logo">
+      <span class="logo-green">QuizGen</span>
+      <span class="logo-text">AI</span>
+    </a>
+
+    <nav class="app-nav">
+       <a href="../index.html">Home</a>
+       <a href="dashboard.html" class="active">Dashboard</a>
+       <a href="create-exam.html">Create Exam</a>
+
+       <button id="logoutBtn" class="secondary-btn">
+       Sign Out
+       </button>
+    </nav>
+
+  </header>
+
+
+  <main class="app-container">
+
+    <!-- Welcome -->
+
+    <section class="dashboard-header">
+
+      <div>
+        <h1 class="page-title">
+          Welcome back, <span id="userName">Student</span> 👋
+        </h1>
+
+        <p class="page-subtitle">
+          Ready to test your knowledge?
+        </p>
+      </div>
+
+      <a href="create-exam.html" class="primary-btn">
+        + Create New Exam
+      </a>
+
+    </section>
+
+
+    <!-- Statistics -->
+
+    <section class="stats-grid">
+
+      <div class="stat-card">
+        <span>Total Exams</span>
+        <strong id="totalExams">0</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>Average Score</span>
+        <strong id="averageScore">0%</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>Best Score</span>
+        <strong id="bestScore">0%</strong>
+      </div>
+
+    </section>
+
+
+    <!-- Recent Exams -->
+
+    <section class="recent-card">
+
+      <div class="card-header">
+        <h2>Recent Exams</h2>
+        <span>Latest activity</span>
+      </div>
+
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>Material</th>
+              <th>Score</th>
+              <th>Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody id="examTable"></tbody>
+
+        </table>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/dashboard.js"></script>
+
+</body>
+</html>

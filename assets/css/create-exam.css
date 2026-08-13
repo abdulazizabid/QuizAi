@@ -1,0 +1,129 @@
+/* ================= CREATE EXAM ================= */
+
+body {
+  background: #faf8ee;
+}
+
+.create-heading {
+  margin-bottom: 30px;
+}
+
+.exam-card {
+  background: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 25px;
+}
+
+.step-label {
+  display: inline-block;
+  background: var(--light-green);
+  color: var(--primary-green);
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.exam-card h2 {
+  margin-bottom: 20px;
+}
+
+.upload-area {
+  border: 2px dashed #b9c7b0;
+  border-radius: 14px;
+  padding: 45px 20px;
+  text-align: center;
+  transition: 0.2s;
+}
+
+.upload-area.dragging {
+  border-color: var(--primary-green);
+  background: var(--light-green);
+}
+
+.upload-icon {
+  font-size: 40px;
+}
+
+.upload-area h3 {
+  margin: 10px 0 5px;
+}
+
+.upload-area p {
+  color: var(--text-gray);
+  margin-bottom: 18px;
+}
+
+.file-name {
+  color: var(--primary-green) !important;
+  font-weight: 600;
+  margin-top: 18px;
+  margin-bottom: 0 !important;
+}
+
+.config-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.config-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.config-group input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  font-size: 16px;
+  outline: none;
+}
+
+.config-group input:focus {
+  border-color: var(--primary-green);
+}
+
+.exam-summary {
+  background: var(--light-green);
+  border-radius: 16px;
+  padding: 26px;
+  margin-bottom: 22px;
+}
+
+.exam-summary h2 {
+  margin-bottom: 18px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.summary-row + .summary-row {
+  border-top: 1px solid rgba(59, 130, 22, 0.15);
+}
+
+.generate-btn {
+  width: 100%;
+  font-size: 16px;
+}
+
+.exam-message {
+  color: #c62828;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 750px) {
+
+  .config-grid {
+    grid-template-columns: 1fr;
+  }
+
+}

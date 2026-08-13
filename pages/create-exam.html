@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Create Exam - QuizGen AI</title>
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/create-exam.css">
+</head>
+
+<body>
+
+  <!-- Navbar -->
+
+  <header class="app-navbar">
+
+    <a href="../index.html" class="logo">
+      <span class="logo-green">QuizGen</span>
+      <span class="logo-text">AI</span>
+    </a>
+
+    <nav class="app-nav">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="create-exam.html" class="active">Create Exam</a>
+    </nav>
+
+  </header>
+
+
+  <main class="app-container">
+
+    <div class="create-heading">
+
+      <h1 class="page-title">Create New Exam</h1>
+
+      <p class="page-subtitle">
+        Upload your study material and customize your examination.
+      </p>
+
+    </div>
+
+
+    <form id="examForm">
+
+      <!-- Upload -->
+
+      <section class="exam-card">
+
+        <div class="step-label">STEP 1</div>
+
+        <h2>Upload Study Material</h2>
+
+        <div id="uploadArea" class="upload-area">
+
+          <div class="upload-icon">📄</div>
+
+          <h3>Drag & Drop your file here</h3>
+
+          <p>PDF, PPT or PPTX</p>
+
+          <label for="fileInput" class="secondary-btn">
+            Browse File
+          </label>
+
+          <input
+            type="file"
+            id="fileInput"
+            accept=".pdf,.ppt,.pptx"
+            hidden>
+
+          <p id="fileName" class="file-name"></p>
+
+        </div>
+
+      </section>
+
+
+      <!-- Configuration -->
+
+      <section class="exam-card">
+
+        <div class="step-label">STEP 2</div>
+
+        <h2>Configure Examination</h2>
+
+
+        <div class="config-grid">
+
+          <div class="config-group">
+
+            <label for="mcqCount">
+              Number of MCQs
+            </label>
+
+            <input
+              type="number"
+              id="mcqCount"
+              min="0"
+              max="50"
+              value="10">
+
+          </div>
+
+
+          <div class="config-group">
+
+            <label for="shortCount">
+              Number of Short Questions
+            </label>
+
+            <input
+              type="number"
+              id="shortCount"
+              min="0"
+              max="20"
+              value="5">
+
+          </div>
+
+
+          <div class="config-group">
+
+            <label for="duration">
+              Exam Duration (minutes)
+            </label>
+
+            <input
+              type="number"
+              id="duration"
+              min="5"
+              max="180"
+              value="30">
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- Summary -->
+
+      <section class="exam-summary">
+
+        <h2>Exam Summary</h2>
+
+        <div class="summary-row">
+          <span>MCQ Questions</span>
+          <strong id="summaryMcq">10</strong>
+        </div>
+
+        <div class="summary-row">
+          <span>Short Questions</span>
+          <strong id="summaryShort">5</strong>
+        </div>
+
+        <div class="summary-row">
+          <span>Total Questions</span>
+          <strong id="summaryTotal">15</strong>
+        </div>
+
+        <div class="summary-row">
+          <span>Duration</span>
+          <strong>
+            <span id="summaryDuration">30</span> min
+          </strong>
+        </div>
+
+      </section>
+
+
+      <p id="examMessage" class="exam-message"></p>
+
+      <button type="submit" class="primary-btn generate-btn">
+        Generate Exam →
+      </button>
+
+    </form>
+
+  </main>
+
+
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/create-exam.js"></script>
+
+</body>
+</html>

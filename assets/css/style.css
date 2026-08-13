@@ -1370,3 +1370,90 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+.auth-section {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-left: 20px;
+}
+
+.auth-section .nav-btn {
+  padding: 10px 16px;
+  white-space: nowrap;
+}
+
+.auth-section .cta-button {
+  padding: 11px 20px;
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* ================= APP COMMON ================= */
+
+.app-navbar {
+  background: #fff;
+  border-bottom: 1px solid var(--border-color);
+  padding: 16px 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.app-nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.app-nav a {
+  color: var(--text-gray);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.app-nav a:hover,
+.app-nav a.active {
+  color: var(--primary-green);
+}
+
+.app-container {
+  max-width: 1180px;
+  margin: auto;
+  padding: 45px 24px 70px;
+}
+
+.primary-btn {
+  background: var(--primary-green);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.primary-btn:hover {
+  opacity: 0.9;
+}
+
+.secondary-btn {
+  background: transparent;
+  color: var(--primary-green);
+  border: 1px solid var(--primary-green);
+  border-radius: 10px;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+.page-title {
+  font-size: 32px;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.page-subtitle {
+  color: var(--text-gray);
+}
