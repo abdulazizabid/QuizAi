@@ -1,11 +1,13 @@
-// ================= MOCK DASHBOARD DATA =================
+// ================= PROTOTYPE DASHBOARD DATA =================
 
+// Provides temporary user statistics and exam records until backend integration.
 const dashboardData = {
   user: "Student",
   totalExams: 3,
   averageScore: 82,
   bestScore: 91,
 
+  // Stores the sample exams displayed in the recent-exams table.
   exams: [
     {
       material: "Data Structures.pdf",
@@ -26,29 +28,37 @@ const dashboardData = {
 };
 
 
-// ================= DISPLAY DATA =================
+// ================= DASHBOARD SUMMARY =================
 
+// Displays the prototype user's name in the dashboard greeting.
 document.getElementById("userName").textContent =
   dashboardData.user;
 
+// Displays the total number of completed examinations.
 document.getElementById("totalExams").textContent =
   dashboardData.totalExams;
 
+// Displays the average score with a percentage symbol.
 document.getElementById("averageScore").textContent =
   `${dashboardData.averageScore}%`;
 
+// Displays the user's highest score with a percentage symbol.
 document.getElementById("bestScore").textContent =
   `${dashboardData.bestScore}%`;
 
 
-// ================= RECENT EXAMS =================
+// ================= RECENT-EXAMS TABLE =================
 
+// Finds the table body where recent examination rows will be inserted.
 const examTable = document.getElementById("examTable");
 
+// Creates and displays one table row for every sample examination.
 dashboardData.exams.forEach((exam) => {
 
+  // Creates a new table-row element for the current exam record.
   const row = document.createElement("tr");
 
+  // Builds the cells for material, score, date, and completion status.
   row.innerHTML = `
     <td>${exam.material}</td>
     <td>${exam.score}</td>
@@ -56,31 +66,36 @@ dashboardData.exams.forEach((exam) => {
     <td class="status-completed">Completed</td>
   `;
 
+  // Adds the completed row to the recent-exams table.
   examTable.appendChild(row);
 
 });
 
 
 /*
-BACKEND LATER:
+FUTURE BACKEND INTEGRATION:
 
+Replace the prototype object with authenticated user details,
+exam history, and calculated progress from these endpoints:
 GET /users/me
 GET /exams/history
 GET /users/progress
 */
 
 
-// ================= LOGOUT =================
+// ================= LOGOUT ACTION =================
 
+// Listens for the user to select the dashboard's logout button.
 document
   .getElementById("logoutBtn")
   .addEventListener("click", () => {
 
     /*
-    Later:
-    Remove/expire authentication.
+    FUTURE AUTHENTICATION CLEANUP:
+    Remove stored credentials or expire the active user session.
     */
 
+    // Returns the user to the sign-in page in the current prototype.
     window.location.href = "signin.html";
 
   });
