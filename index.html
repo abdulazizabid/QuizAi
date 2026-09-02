@@ -1,327 +1,318 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <!-- Contains page metadata, browser settings, title, and shared styles -->
+  <head>
+    <!-- Defines the document character encoding -->
+    <meta charset="UTF-8" />
+    <!-- Makes the layout responsive on mobile and desktop screens -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Sets the text displayed in the browser tab -->
+    <title>QuizGen AI - AI-Powered Exam Generator</title>
 
-  <title>QuizGen AI - AI-Powered Exam Generator</title>
+    <!-- Loads the main stylesheet used by the landing page -->
+    <link rel="stylesheet" href="./assets/css/style.css" />
+  </head>
 
-  <link rel="stylesheet" href="./assets/css/style.css">
-</head>
+  <!-- Contains all visible page content and the JavaScript connection -->
+  <body>
+    <!-- ================= NAVBAR ================= -->
+    <header class="navbar">
+      <!-- Brand logo that returns the user to the home section -->
+      <a href="#home" class="logo">
+        <span class="logo-green">QuizGen</span>
+        <span class="logo-text">AI</span>
+      </a>
 
-<body>
+      <!-- Navigation links that move to sections on the landing page -->
+      <nav class="nav-links">
+        <a href="#home" class="nav-btn">Home</a>
+        <a href="#how-it-works" class="nav-btn">How It Works</a>
+        <a href="#features" class="nav-btn">Features</a>
+        <a href="#about" class="nav-btn">About</a>
+      </nav>
 
-  <!-- ================= NAVBAR ================= -->
-  <header class="navbar">
-
-    <a href="#home" class="logo">
-      <span class="logo-green">QuizGen</span>
-      <span class="logo-text">AI</span>
-    </a>
-
-    <nav class="nav-links">
-      <a href="#home" class="nav-btn">Home</a>
-      <a href="#how-it-works" class="nav-btn">How It Works</a>
-      <a href="#features" class="nav-btn">Features</a>
-      <a href="#about" class="nav-btn">About</a>
-    </nav>
-
-    <div class="auth-section">
-      <a href="./pages/signin.html" class="nav-btn">Sign In</a>
-      <a href="./pages/signup.html" class="cta-button">Get Started</a>
-    </div>
-
-  </header>
-
-
-  <!-- ================= HERO ================= -->
-  <main>
-
-    <section id="home" class="hero-section">
-
-      <div class="hero-content">
-
-        <div class="badge">🚀 AI-Powered Learning</div>
-
-        <h1 class="hero-title">
-          Turn Your Study Materials
-          <span class="highlight">Into Smart Exams</span>
-        </h1>
-
-        <p class="hero-description">
-          Upload your PDFs or lecture slides, choose your question types
-          and exam duration, and let AI create a personalized examination.
-        </p>
-
-        <a href="./pages/signup.html" class="cta-button">
-          Get Started →
-        </a>
-
+      <!-- Authentication links that open the sign-in and sign-up pages -->
+      <div class="auth-section">
+        <a href="./pages/signin.html" class="nav-btn">Sign In</a>
+        <a href="./pages/signup.html" class="cta-button">Get Started</a>
       </div>
+    </header>
 
+    <!-- ================= HERO ================= -->
+    <!-- Wraps the main content sections of the landing page -->
+    <main>
+      <!-- Introduces the product with a message, sign-up action, and quiz preview -->
+      <section id="home" class="hero-section">
+        <!-- Contains the hero badge, heading, description, and primary action -->
+        <div class="hero-content">
+          <div class="badge">🚀 AI-Powered Learning</div>
 
-      <!-- Demo Exam Card -->
-      <div class="hero-image-container">
+          <!-- Displays the main message of the landing page -->
+          <h1 class="hero-title">
+            Turn Your Study Materials
+            <span class="highlight">Into Smart Exams</span>
+          </h1>
 
-        <div class="circle-bg"></div>
+          <!-- Briefly explains how users create personalized examinations -->
+          <p class="hero-description">
+            Upload your PDFs or lecture slides, choose your question types and
+            exam duration, and let AI create a personalized examination.
+          </p>
 
-        <div class="card-stack">
+          <!-- Sends new users to the account-registration page -->
+          <a href="./pages/signup.html" class="cta-button"> Get Started → </a>
+        </div>
 
-          <div class="floating-badge badge-top">
-            🤖 AI Generated
-          </div>
+        <!-- Demo Exam Card -->
+        <!-- Displays a decorative preview of an AI-generated quiz -->
+        <div class="hero-image-container">
+          <!-- Creates the decorative circular background behind the quiz card -->
+          <div class="circle-bg"></div>
 
-          <div class="quiz-card">
+          <!-- Groups the quiz preview and its floating status badges -->
+          <div class="card-stack">
+            <!-- Labels the preview as AI-generated content -->
+            <div class="floating-badge badge-top">🤖 AI Generated</div>
 
-            <span class="question-number">
-              QUESTION 1 OF 10
-            </span>
+            <!-- Shows a sample multiple-choice question and answer options -->
+            <div class="quiz-card">
+              <!-- Displays the sample question's position in the exam -->
+              <span class="question-number"> QUESTION 1 OF 10 </span>
 
-            <h3 class="question-text">
-              What is machine learning?
-            </h3>
+              <!-- Displays the sample question prompt -->
+              <h3 class="question-text">What is machine learning?</h3>
 
-            <div class="options">
+              <!-- Groups all possible answers for the sample question -->
+              <div class="options">
+                <!-- Displays the first unselected answer option -->
+                <div class="option">
+                  <span class="opt-label">A</span>
+                  Human learning
+                </div>
 
-              <div class="option">
-                <span class="opt-label">A</span>
-                Human learning
+                <!-- Displays the selected correct answer and check mark -->
+                <div class="option selected">
+                  <span class="opt-label">B</span>
+                  Algorithms that learn from data
+                  <span class="check">✓</span>
+                </div>
+
+                <!-- Displays the third unselected answer option -->
+                <div class="option">
+                  <span class="opt-label">C</span>
+                  Computer memory
+                </div>
+
+                <!-- Displays the fourth unselected answer option -->
+                <div class="option">
+                  <span class="opt-label">D</span>
+                  Internet connection
+                </div>
               </div>
-
-              <div class="option selected">
-                <span class="opt-label">B</span>
-                Algorithms that learn from data
-                <span class="check">✓</span>
-              </div>
-
-              <div class="option">
-                <span class="opt-label">C</span>
-                Computer memory
-              </div>
-
-              <div class="option">
-                <span class="opt-label">D</span>
-                Internet connection
-              </div>
-
             </div>
 
+            <!-- Highlights the instant-feedback capability -->
+            <div class="floating-badge badge-bottom">⚡ Instant Feedback</div>
           </div>
-
-          <div class="floating-badge badge-bottom">
-            ⚡ Instant Feedback
-          </div>
-
         </div>
+      </section>
 
-      </div>
+      <!-- ================= HOW IT WORKS ================= -->
+      <!-- Explains the complete exam-creation process in four steps -->
+      <section id="how-it-works" class="how-it-works">
+        <!-- Centers the workflow content and controls its maximum width -->
+        <div class="section-container">
+          <!-- Introduces the workflow section -->
+          <h2 class="section-title">How QuizGen AI Works</h2>
 
-    </section>
+          <!-- Summarizes the number and purpose of the workflow steps -->
+          <p class="section-subtitle">
+            Create a personalized exam in four simple steps
+          </p>
 
+          <!-- Arranges the four workflow cards in a responsive grid -->
+          <div class="steps-grid">
+            <!-- Step 1 explains how users provide their study material -->
+            <div class="step-card">
+              <div class="step-number">1</div>
+              <h3>Upload Material</h3>
+              <p>Upload your PDF files or lecture slides.</p>
+            </div>
 
-    <!-- ================= HOW IT WORKS ================= -->
-    <section id="how-it-works" class="how-it-works">
+            <!-- Step 2 explains how users customize their examination -->
+            <div class="step-card">
+              <div class="step-number">2</div>
+              <h3>Configure Exam</h3>
+              <p>Choose MCQs, short questions, and exam duration.</p>
+            </div>
 
+            <!-- Step 3 explains the timed examination experience -->
+            <div class="step-card">
+              <div class="step-number">3</div>
+              <h3>Take the Exam</h3>
+              <p>Answer AI-generated questions in a timed environment.</p>
+            </div>
+
+            <!-- Step 4 explains the post-exam result and feedback review -->
+            <div class="step-card">
+              <div class="step-number">4</div>
+              <h3>Review Feedback</h3>
+              <p>See your score, explanations, and source references.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= FEATURES ================= -->
+      <!-- Presents the main learning and examination features -->
+      <section id="features" class="benefits-section">
+        <!-- Centers the feature content and controls its maximum width -->
+        <div class="section-container">
+          <!-- Introduces the platform's feature collection -->
+          <h2 class="section-title">Everything You Need to Practice Smarter</h2>
+
+          <!-- Summarizes the platform's all-in-one learning purpose -->
+          <p class="section-subtitle">
+            One platform for exam generation, evaluation, and progress tracking
+          </p>
+
+          <!-- Arranges all feature cards in a responsive grid -->
+          <div class="benefits-grid">
+            <!-- Describes question generation from uploaded materials -->
+            <div class="benefit-card">
+              <div class="benefit-icon">🤖</div>
+              <h3>AI Question Generation</h3>
+              <p>Generate questions directly from your uploaded material.</p>
+            </div>
+
+            <!-- Describes support for multiple question formats -->
+            <div class="benefit-card">
+              <div class="benefit-icon">📝</div>
+              <h3>MCQ + Short Questions</h3>
+              <p>Choose the number and type of questions you want.</p>
+            </div>
+
+            <!-- Describes configurable timed exams and automatic submission -->
+            <div class="benefit-card">
+              <div class="benefit-icon">⏱️</div>
+              <h3>Timed Exams</h3>
+              <p>Set your exam duration with automatic submission.</p>
+            </div>
+
+            <!-- Describes automatic evaluation of submitted answers -->
+            <div class="benefit-card">
+              <div class="benefit-icon">✅</div>
+              <h3>AI Evaluation</h3>
+              <p>Automatically evaluate MCQ and short-answer responses.</p>
+            </div>
+
+            <!-- Describes explanations linked to the original material -->
+            <div class="benefit-card">
+              <div class="benefit-icon">📖</div>
+              <h3>Source-Based Feedback</h3>
+              <p>Review explanations with references to your material.</p>
+            </div>
+
+            <!-- Describes performance tracking across previous exams -->
+            <div class="benefit-card">
+              <div class="benefit-icon">📈</div>
+              <h3>Progress Tracking</h3>
+              <p>Track your performance across previous examinations.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= ABOUT ================= -->
+      <!-- Explains the main value and purpose of QuizGen AI -->
+      <section id="about" class="info-banner-section">
+        <!-- Displays the about content inside a highlighted banner card -->
+        <div class="info-banner-card">
+          <!-- Introduces the reason for using the platform -->
+          <div class="pill-badge pill-green">Why QuizGen AI?</div>
+
+          <!-- States the platform's material-focused learning benefit -->
+          <h2 class="banner-title">
+            Practice from the materials you actually study
+          </h2>
+
+          <!-- Describes generation, evaluation, feedback, and progress tracking -->
+          <p class="banner-description">
+            <strong>QuizGen AI</strong> turns your own study materials into
+            structured examinations, evaluates your answers, provides
+            source-based feedback, and helps you monitor your progress over
+            time.
+          </p>
+        </div>
+      </section>
+
+      <!-- ================= CTA ================= -->
+      <!-- Encourages visitors to create an account and begin an exam -->
+      <section class="cta-final-section">
+        <!-- Centers the final call-to-action content -->
+        <div class="section-container">
+          <!-- Asks the visitor to take the next step -->
+          <h2>Ready to test your knowledge?</h2>
+
+          <!-- Briefly explains what the visitor can do after signing up -->
+          <p>
+            Upload your study material and create your first AI-powered exam.
+          </p>
+
+          <!-- Opens the registration page from the final call to action -->
+          <a href="./pages/signup.html" class="cta-final-button">
+            Create Your Account →
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <!-- Provides branding, navigation, account links, and copyright details -->
+    <footer class="simple-footer">
+      <!-- Centers the footer content and controls its maximum width -->
       <div class="section-container">
-
-        <h2 class="section-title">
-          How QuizGen AI Works
-        </h2>
-
-        <p class="section-subtitle">
-          Create a personalized exam in four simple steps
-        </p>
-
-
-        <div class="steps-grid">
-
-          <div class="step-card">
-            <div class="step-number">1</div>
-            <h3>Upload Material</h3>
-            <p>Upload your PDF files or lecture slides.</p>
+        <!-- Groups the footer's brand and link columns -->
+        <div class="simple-footer-content">
+          <!-- Repeats the product name and short description -->
+          <div class="simple-footer-brand">
+            <h3>QuizGen AI</h3>
+            <p>AI-powered personalized examination platform.</p>
           </div>
 
-          <div class="step-card">
-            <div class="step-number">2</div>
-            <h3>Configure Exam</h3>
-            <p>Choose MCQs, short questions, and exam duration.</p>
+          <!-- Provides shortcuts to the landing-page sections -->
+          <div class="simple-footer-links">
+            <h4>Navigation</h4>
+
+            <ul>
+              <li><a href="#home">Home</a></li>
+              <li><a href="#how-it-works">How It Works</a></li>
+              <li><a href="#features">Features</a></li>
+              <li><a href="#about">About</a></li>
+            </ul>
           </div>
 
-          <div class="step-card">
-            <div class="step-number">3</div>
-            <h3>Take the Exam</h3>
-            <p>Answer AI-generated questions in a timed environment.</p>
-          </div>
+          <!-- Provides shortcuts to the account pages -->
+          <div class="simple-footer-links">
+            <h4>Account</h4>
 
-          <div class="step-card">
-            <div class="step-number">4</div>
-            <h3>Review Feedback</h3>
-            <p>See your score, explanations, and source references.</p>
+            <ul>
+              <li><a href="./pages/signin.html">Sign In</a></li>
+              <li><a href="./pages/signup.html">Sign Up</a></li>
+            </ul>
           </div>
-
         </div>
 
-      </div>
-
-    </section>
-
-
-    <!-- ================= FEATURES ================= -->
-    <section id="features" class="benefits-section">
-
-      <div class="section-container">
-
-        <h2 class="section-title">
-          Everything You Need to Practice Smarter
-        </h2>
-
-        <p class="section-subtitle">
-          One platform for exam generation, evaluation, and progress tracking
-        </p>
-
-
-        <div class="benefits-grid">
-
-          <div class="benefit-card">
-            <div class="benefit-icon">🤖</div>
-            <h3>AI Question Generation</h3>
-            <p>Generate questions directly from your uploaded material.</p>
-          </div>
-
-          <div class="benefit-card">
-            <div class="benefit-icon">📝</div>
-            <h3>MCQ + Short Questions</h3>
-            <p>Choose the number and type of questions you want.</p>
-          </div>
-
-          <div class="benefit-card">
-            <div class="benefit-icon">⏱️</div>
-            <h3>Timed Exams</h3>
-            <p>Set your exam duration with automatic submission.</p>
-          </div>
-
-          <div class="benefit-card">
-            <div class="benefit-icon">✅</div>
-            <h3>AI Evaluation</h3>
-            <p>Automatically evaluate MCQ and short-answer responses.</p>
-          </div>
-
-          <div class="benefit-card">
-            <div class="benefit-icon">📖</div>
-            <h3>Source-Based Feedback</h3>
-            <p>Review explanations with references to your material.</p>
-          </div>
-
-          <div class="benefit-card">
-            <div class="benefit-icon">📈</div>
-            <h3>Progress Tracking</h3>
-            <p>Track your performance across previous examinations.</p>
-          </div>
-
+        <!-- Displays the project copyright notice -->
+        <div class="simple-footer-bottom">
+          <p>&copy; 2026 QuizGen AI. All rights reserved.</p>
         </div>
-
       </div>
+    </footer>
 
-    </section>
-
-
-    <!-- ================= ABOUT ================= -->
-    <section id="about" class="info-banner-section">
-
-      <div class="info-banner-card">
-
-        <div class="pill-badge pill-green">
-          Why QuizGen AI?
-        </div>
-
-        <h2 class="banner-title">
-          Practice from the materials you actually study
-        </h2>
-
-        <p class="banner-description">
-          <strong>QuizGen AI</strong> turns your own study materials into
-          structured examinations, evaluates your answers, provides
-          source-based feedback, and helps you monitor your progress over time.
-        </p>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= CTA ================= -->
-    <section class="cta-final-section">
-
-      <div class="section-container">
-
-        <h2>Ready to test your knowledge?</h2>
-
-        <p>
-          Upload your study material and create your first AI-powered exam.
-        </p>
-
-        <a href="./pages/signup.html" class="cta-final-button">
-          Create Your Account →
-        </a>
-
-      </div>
-
-    </section>
-
-  </main>
-
-
-  <!-- ================= FOOTER ================= -->
-  <footer class="simple-footer">
-
-    <div class="section-container">
-
-      <div class="simple-footer-content">
-
-        <div class="simple-footer-brand">
-          <h3>QuizGen AI</h3>
-          <p>AI-powered personalized examination platform.</p>
-        </div>
-
-        <div class="simple-footer-links">
-
-          <h4>Navigation</h4>
-
-          <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#how-it-works">How It Works</a></li>
-            <li><a href="#features">Features</a></li>
-            <li><a href="#about">About</a></li>
-          </ul>
-
-        </div>
-
-        <div class="simple-footer-links">
-
-          <h4>Account</h4>
-
-          <ul>
-            <li><a href="./pages/signin.html">Sign In</a></li>
-            <li><a href="./pages/signup.html">Sign Up</a></li>
-          </ul>
-
-        </div>
-
-      </div>
-
-      <div class="simple-footer-bottom">
-        <p>&copy; 2026 QuizGen AI. All rights reserved.</p>
-      </div>
-
-    </div>
-
-  </footer>
-
-
-  <script src="./assets/js/api.js"></script>
-  <script src="./assets/js/main.js"></script>
-
-</body>
-
+    <!-- Loads the shared API helpers and landing-page interactions -->
+    <script src="./assets/js/api.js"></script>
+    <script src="./assets/js/main.js"></script>
+  </body>
 </html>

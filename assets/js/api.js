@@ -1,8 +1,10 @@
-// ================= API CONFIG =================
+// ================= API CONFIGURATION =================
 
+// Stores the common backend address that API requests use.
 const API_BASE_URL = "http://127.0.0.1:8000/api/v1";
 const AUTH_STORAGE_KEY = "quizgenAuth";
 
+// Reads the current authentication details from browser storage.
 function getAuth() {
   try {
     return JSON.parse(localStorage.getItem(AUTH_STORAGE_KEY));
@@ -11,6 +13,7 @@ function getAuth() {
   }
 }
 
+// Saves or clears the active user's authentication details.
 function saveAuth(auth) {
   localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(auth));
 }
@@ -23,6 +26,7 @@ function isAuthenticated() {
   return Boolean(getAuth()?.access_token);
 }
 
+// Sends an authenticated request to the backend and refreshes expired access tokens.
 async function apiRequest(path, options = {}) {
   const auth = getAuth();
   const headers = { ...(options.headers || {}) };
@@ -45,11 +49,13 @@ async function apiRequest(path, options = {}) {
       clearAuth();
     }
   }
+
   const data = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(data.detail || "Request failed");
   return data;
 }
 
+// Redirects visitors who do not have an authenticated session.
 function requireAuth() {
   if (!isAuthenticated()) {
     window.location.replace("signin.html");
@@ -58,6 +64,7 @@ function requireAuth() {
   return true;
 }
 
+// Displays a reusable loading overlay during longer backend operations.
 function showLoading(title, detail) {
   let overlay = document.getElementById("loadingOverlay");
   if (!overlay) {
