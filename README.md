@@ -39,19 +39,19 @@ Students often revise from lengthy notes but lack practice questions tailored to
 
 QuizGen AI is an **in-progress frontend prototype**, not yet a production-ready AI application.
 
-| Area | Current state |
-| --- | --- |
-| Interface and navigation | Implemented |
-| Exam configuration and timer | Implemented in the browser |
-| Question data | Static sample question pools |
-| MCQ evaluation | Implemented in the browser |
-| Short-answer evaluation | Temporary answer-length check |
-| Exam history | Stored in `localStorage` |
-| Active exam and result | Stored in `sessionStorage` |
-| Authentication | UI flow only; no user session or JWT yet |
-| File processing | File selection only; files are not uploaded yet |
-| AI generation and source references | Planned |
-| FastAPI, LangChain, and MySQL backend | Planned |
+| Area                                  | Current state                                   |
+| ------------------------------------- | ----------------------------------------------- |
+| Interface and navigation              | Implemented                                     |
+| Exam configuration and timer          | Implemented in the browser                      |
+| Question data                         | Static sample question pools                    |
+| MCQ evaluation                        | Implemented in the browser                      |
+| Short-answer evaluation               | Temporary answer-length check                   |
+| Exam history                          | Stored in `localStorage`                        |
+| Active exam and result                | Stored in `sessionStorage`                      |
+| Authentication                        | UI flow only; no user session or JWT yet        |
+| File processing                       | File selection only; files are not uploaded yet |
+| AI generation and source references   | Planned                                         |
+| FastAPI, LangChain, and MySQL backend | Planned                                         |
 
 ## Application workflow
 
@@ -92,16 +92,16 @@ When the backend is implemented, file processing, question generation, evaluatio
 
 ## Pages and responsibilities
 
-| Page | Responsibility |
-| --- | --- |
-| `index.html` | Introduces the product, its benefits, and the four-step workflow |
-| `pages/signup.html` | Collects registration details and checks password confirmation |
-| `pages/signin.html` | Provides the prototype login flow |
-| `pages/dashboard.html` | Shows overview statistics, recent exams, and navigation shortcuts |
-| `pages/create-exam.html` | Accepts a local file selection and examination settings |
-| `pages/exam.html` | Renders questions, records answers, manages navigation, and runs the timer |
-| `pages/result.html` | Displays the score and a question-by-question review |
-| `pages/profile.html` | Shows profile information, aggregate statistics, progress, and history |
+| Page                     | Responsibility                                                             |
+| ------------------------ | -------------------------------------------------------------------------- |
+| `index.html`             | Introduces the product, its benefits, and the four-step workflow           |
+| `pages/signup.html`      | Collects registration details and checks password confirmation             |
+| `pages/signin.html`      | Provides the prototype login flow                                          |
+| `pages/dashboard.html`   | Shows overview statistics, recent exams, and navigation shortcuts          |
+| `pages/create-exam.html` | Accepts a local file selection and examination settings                    |
+| `pages/exam.html`        | Renders questions, records answers, manages navigation, and runs the timer |
+| `pages/result.html`      | Displays the score and a question-by-question review                       |
+| `pages/profile.html`     | Shows profile information, aggregate statistics, progress, and history     |
 
 ## Exam behavior and scoring
 
@@ -192,11 +192,11 @@ QuizAi/
 
 The prototype uses these browser-storage keys:
 
-| Key | Storage | Purpose |
-| --- | --- | --- |
-| `examConfig` | `sessionStorage` | Selected file name, question counts, and duration |
-| `examResult` | `sessionStorage` | Most recently submitted exam and question review |
-| `quizgenHistory` | `localStorage` | Exam summaries displayed on the profile page |
+| Key              | Storage          | Purpose                                           |
+| ---------------- | ---------------- | ------------------------------------------------- |
+| `examConfig`     | `sessionStorage` | Selected file name, question counts, and duration |
+| `examResult`     | `sessionStorage` | Most recently submitted exam and question review  |
+| `quizgenHistory` | `localStorage`   | Exam summaries displayed on the profile page      |
 
 To reset the demo, clear the site's local and session storage in your browser's developer tools.
 
@@ -240,14 +240,14 @@ The intended production request flow is:
 
 ### Suggested data entities
 
-| Entity | Example responsibilities |
-| --- | --- |
-| User | Identity, credentials, profile, and account timestamps |
-| Material | File metadata, owner, storage location, and processing status |
-| Exam | Configuration, duration, generation status, and associated material |
+| Entity   | Example responsibilities                                             |
+| -------- | -------------------------------------------------------------------- |
+| User     | Identity, credentials, profile, and account timestamps               |
+| Material | File metadata, owner, storage location, and processing status        |
+| Exam     | Configuration, duration, generation status, and associated material  |
 | Question | Type, prompt, options, answer key, explanation, and source reference |
-| Attempt | Start time, submission time, score, and auto-submission status |
-| Answer | Student response, awarded result, and evaluator feedback |
+| Attempt  | Start time, submission time, score, and auto-submission status       |
+| Answer   | Student response, awarded result, and evaluator feedback             |
 
 ### Suggested environment variables
 
@@ -375,22 +375,3 @@ Once the backend is connected, update `API_BASE_URL` for the deployed API, allow
 - [ ] Add upload limits, file validation, error states, and accessibility testing
 - [ ] Add automated frontend and backend tests
 - [ ] Deploy the frontend, API, database, and AI integration
-
-## Team
-
-Developed as a B.Sc. Engineering software development project in the Department of Computer Science and Engineering at Chittagong University of Engineering and Technology (CUET).
-
-- Naveed Wazed Khan — ID: 2204016
-- Ramij Wasith Rahat — ID: 2204022
-- Abdul Aziz Abid — ID: 2204023
-- Arka Dutta — ID: 2204025
-
-Course instructor: **Sharmistha Chanda Tista**, Assistant Professor, Department of Computer Science and Engineering, CUET.
-
-## Contributing
-
-Contributions and suggestions are welcome. Before making a substantial change, open an issue describing the problem and proposed solution. Keep changes focused, preserve the framework-free frontend unless the team agrees otherwise, and test the full browser flow before submitting a pull request.
-
-## License
-
-No license has been added yet. Until a license is provided, the project remains under the copyright of its authors and is not automatically available for reuse or redistribution.
