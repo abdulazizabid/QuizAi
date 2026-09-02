@@ -1,169 +1,65 @@
-const examResult = JSON.parse(
-  sessionStorage.getItem("examResult")
-);
+if (!requireAuth()) throw new Error("Authentication required");
 
-
-const resultContainer =
-  document.getElementById("resultContainer");
-
+const examResult = JSON.parse(sessionStorage.getItem("examResult"));
+const resultContainer = document.getElementById("resultContainer");
 
 if (!examResult) {
-
-  resultContainer.innerHTML = `
-    <div class="review-card">
-      <p>No exam result found.</p>
-    </div>
-  `;
-
+  resultContainer.innerHTML = `<div class="review-card"><p>No exam result found.</p></div>`;
 } else {
-
-  // ================= SUMMARY =================
-
-  document.getElementById("resultMaterial").textContent =
-    examResult.material;
-
-  document.getElementById("score").textContent =
-    `${examResult.score}%`;
-
-  document.getElementById("correctCount").textContent =
-    examResult.correctCount;
-
-  document.getElementById("totalQuestions").textContent =
-    examResult.totalQuestions;
-
-
-  // ================= SAFE TEXT =================
-
-  function escapeHTML(text) {
-
-    const element =
-      document.createElement("div");
-
-    element.textContent =
-      text || "Not answered";
-
-    return element.innerHTML;
-  }
-
-
-  // ================= REVIEW =================
+  document.getElementById("resultMaterial").textContent = examResult.material;
+  document.getElementById("score").textContent = `${examResult.score}%`;
+  document.getElementById("correctCount").textContent = examResult.correct_count;
+  document.getElementById("totalQuestions").textContent = examResult.total_questions;
 
   examResult.results.forEach((item, index) => {
+    const card = document.createElement("article");
+    card.className = `review-card ${item.correct ? "correct" : "incorrect"}`;
 
-    const card =
-      document.createElement("article");
+    const top = document.createElement("div");
+    top.className = "review-top";
+    const number = document.createElement("strong");
+    number.textContent = `Question ${index + 1}`;
+    const status = document.createElement("span");
+    status.className = "review-status";
+    status.textContent = `${item.awarded_marks}/${item.max_marks} mark${item.max_marks === 1 ? "" : "s"}`;
+    top.append(number, status);
 
-    card.className =
-      `review-card ${item.correct ? "correct" : "incorrect"}`;
+    const title = document.createElement("h3");
+    title.textContent = item.question;
+    card.append(top, title);
+    card.appendChild(answerBlock("Your Answer", item.user_answer || "Not answered"));
+    card.appendChild(answerBlock("Correct Answer", item.correct_answer));
 
+    if (item.type === "short") {
+      card.appendChild(answerBlock(
+        "Evaluation",
+        `${item.feedback} Factual: ${Math.round(item.factual_score * 100)}%, semantic: ${Math.round(item.semantic_score * 100)}%.`
+      ));
+    }
 
-    card.innerHTML = `
+    const explanation = document.createElement("div");
+    explanation.className = "explanation-box";
+    const explanationTitle = document.createElement("strong");
+    explanationTitle.textContent = "Explanation";
+    const explanationText = document.createElement("p");
+    explanationText.textContent = item.explanation;
+    explanation.append(explanationTitle, explanationText);
 
-      <div class="review-top">
-
-        <strong>
-          Question ${index + 1}
-        </strong>
-
-        <span class="review-status">
-          ${item.correct ? "✓ Correct" : "✗ Incorrect"}
-        </span>
-
-      </div>
-
-      <h3>
-        ${escapeHTML(item.question)}
-      </h3>
-
-
-      <div class="answer-block">
-
-        <span>Your Answer</span>
-
-        <p>
-          ${escapeHTML(item.userAnswer)}
-        </p>
-
-      </div>
-
-
-      <div class="answer-block">
-
-        <span>Expected Answer</span>
-
-        <p>
-          ${escapeHTML(item.correctAnswer)}
-        </p>
-
-      </div>
-
-
-      <div class="explanation-box">
-
-        <strong>Explanation</strong>
-
-        <p>
-          ${escapeHTML(item.explanation)}
-        </p>
-
-      </div>
-
-
-      <div class="source-reference">
-        📖 ${escapeHTML(item.source)}
-      </div>
-
-    `;
-
-
+    const source = document.createElement("div");
+    source.className = "source-reference";
+    source.textContent = `Source: ${item.source}`;
+    card.append(explanation, source);
     resultContainer.appendChild(card);
-
   });
+}
 
-
-  // ================= SAVE HISTORY =================
-
-  const history =
-    JSON.parse(
-      localStorage.getItem("quizgenHistory")
-    ) || [];
-
-
-  const alreadySaved =
-    history.some(
-      exam => exam.id === examResult.id
-    );
-
-
-  if (!alreadySaved) {
-
-    history.unshift({
-
-      id: examResult.id,
-
-      material: examResult.material,
-
-      score: examResult.score,
-
-      date: examResult.date
-
-    });
-
-
-    localStorage.setItem(
-      "quizgenHistory",
-      JSON.stringify(history)
-    );
-  }
-
-
-  /*
-  BACKEND LATER:
-
-  GET /exams/{examId}/result
-
-  AI-generated explanations and
-  references will come from FastAPI.
-  */
-
+function answerBlock(label, value) {
+  const block = document.createElement("div");
+  block.className = "answer-block";
+  const heading = document.createElement("span");
+  heading.textContent = label;
+  const text = document.createElement("p");
+  text.textContent = value;
+  block.append(heading, text);
+  return block;
 }

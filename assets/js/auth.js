@@ -1,29 +1,30 @@
 // ================= SIGN IN =================
 
+if (isAuthenticated()) window.location.replace("dashboard.html");
+
 const signinForm = document.getElementById("signinForm");
 
 if (signinForm) {
 
-  signinForm.addEventListener("submit", (event) => {
+  signinForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const email = document.getElementById("signinEmail").value;
     const password = document.getElementById("signinPassword").value;
 
-    console.log("Login:", email, password);
-
-    /*
-    BACKEND LATER:
-
-    const response = await fetch(
-      `${API_BASE_URL}/auth/login`,
-      ...
-    );
-
-    Receive JWT after successful login.
-    */
-
-    window.location.href = "dashboard.html";
+    const message = document.getElementById("formMessage");
+    message.textContent = "Signing in...";
+    try {
+      const auth = await apiRequest("/auth/login", {
+        method: "POST",
+        body: JSON.stringify({ email, password })
+      });
+      saveAuth(auth);
+      window.location.href = "dashboard.html";
+    } catch (error) {
+      message.textContent = error.message;
+      message.className = "form-message error";
+    }
   });
 
 }
@@ -35,7 +36,7 @@ const signupForm = document.getElementById("signupForm");
 
 if (signupForm) {
 
-  signupForm.addEventListener("submit", (event) => {
+  signupForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const password =
@@ -53,13 +54,28 @@ if (signupForm) {
       return;
     }
 
-    /*
-    BACKEND LATER:
+    message.textContent = "Creating account...";
+    try {
+      const auth = await apiRequest("/auth/register", {
+        method: "POST",
+        body: JSON.stringify({
+          full_name: document.getElementById("fullName").value.trim(),
+          email: document.getElementById("signupEmail").value.trim(),
+          password
+        })
+      });
 
-    POST /auth/register
-    */
-
-    window.location.href = "signin.html";
+      if (auth.access_token) {
+        saveAuth(auth);
+        window.location.href = "dashboard.html";
+      } else {
+        message.textContent = auth.message;
+        message.className = "form-message success";
+      }
+    } catch (error) {
+      message.textContent = error.message;
+      message.className = "form-message error";
+    }
   });
 
 }

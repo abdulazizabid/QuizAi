@@ -1,3 +1,5 @@
+if (!requireAuth()) throw new Error("Authentication required");
+
 const fileInput = document.getElementById("fileInput");
 const uploadArea = document.getElementById("uploadArea");
 const fileName = document.getElementById("fileName");
@@ -80,7 +82,7 @@ duration.addEventListener("input", updateSummary);
 
 // ================= GENERATE EXAM =================
 
-examForm.addEventListener("submit", (event) => {
+examForm.addEventListener("submit", async (event) => {
 
   event.preventDefault();
 
@@ -105,44 +107,33 @@ examForm.addEventListener("submit", (event) => {
   }
 
 
-  const examConfig = {
-    file: fileInput.files[0].name,
-    mcqCount: mcq,
-    shortCount: short,
-    duration: Number(duration.value)
-  };
+  const submitButton = examForm.querySelector("button[type='submit']");
+  submitButton.disabled = true;
+  try {
+    showLoading("Reading your material", "Extracting text, formulas, and important topics...");
+    const formData = new FormData();
+    formData.append("file", fileInput.files[0]);
+    const material = await apiRequest("/materials/upload", { method: "POST", body: formData });
 
+    showLoading("Generating your exam", "Creating grounded, varied questions from the most important topics...");
+    const exam = await apiRequest("/exams/generate", {
+      method: "POST",
+      body: JSON.stringify({
+        material_id: material.id,
+        mcq_count: mcq,
+        short_count: short,
+        duration_minutes: Number(duration.value)
+      })
+    });
 
-  console.log("Exam configuration:", examConfig);
-
-
-  /*
-  BACKEND LATER:
-
-  1. Upload document
-
-     POST /materials/upload
-
-  2. Generate examination
-
-     POST /exams/generate
-
-  const formData = new FormData();
-
-  formData.append(
-    "file",
-    fileInput.files[0]
-  );
-
-  Then send question configuration.
-  */
-
-
-sessionStorage.setItem(
-  "examConfig",
-  JSON.stringify(examConfig)
-);
-
-window.location.href = "exam.html";
+    const attempt = await apiRequest(`/exams/${exam.id}/attempts`, { method: "POST" });
+    sessionStorage.setItem("examSession", JSON.stringify(attempt));
+    sessionStorage.removeItem("examResult");
+    window.location.href = "exam.html";
+  } catch (error) {
+    hideLoading();
+    examMessage.textContent = error.message;
+    submitButton.disabled = false;
+  }
 
 });

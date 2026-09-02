@@ -1,86 +1,38 @@
-// ================= MOCK DASHBOARD DATA =================
+if (!requireAuth()) throw new Error("Authentication required");
 
-const dashboardData = {
-  user: "Student",
-  totalExams: 3,
-  averageScore: 82,
-  bestScore: 91,
+document.getElementById("userName").textContent = getAuth()?.user?.full_name || "Student";
 
-  exams: [
-    {
-      material: "Data Structures.pdf",
-      score: "85%",
-      date: "12 Aug 2026"
-    },
-    {
-      material: "Operating Systems.pdf",
-      score: "70%",
-      date: "10 Aug 2026"
-    },
-    {
-      material: "Machine Learning.pdf",
-      score: "91%",
-      date: "8 Aug 2026"
+async function loadDashboard() {
+  try {
+    const data = await apiRequest("/exams/history");
+    document.getElementById("totalExams").textContent = data.total_exams;
+    document.getElementById("averageScore").textContent = `${data.average_score}%`;
+    document.getElementById("bestScore").textContent = `${data.best_score}%`;
+
+    const table = document.getElementById("examTable");
+    table.innerHTML = "";
+    if (!data.exams.length) {
+      const row = document.createElement("tr");
+      const cell = document.createElement("td");
+      cell.colSpan = 4;
+      cell.textContent = "No completed exams yet.";
+      row.appendChild(cell);
+      table.appendChild(row);
+      return;
     }
-  ]
-};
+    data.exams.slice(0, 8).forEach((exam) => {
+      const row = document.createElement("tr");
+      [exam.material, `${exam.score}%`, new Date(exam.date).toLocaleDateString(), exam.status].forEach((value, index) => {
+        const cell = document.createElement("td");
+        cell.textContent = value;
+        if (index === 3) cell.className = "status-completed";
+        row.appendChild(cell);
+      });
+      table.appendChild(row);
+    });
+  } catch (error) {
+    document.getElementById("examTable").innerHTML = `<tr><td colspan="4">${error.message}</td></tr>`;
+  }
+}
 
-
-// ================= DISPLAY DATA =================
-
-document.getElementById("userName").textContent =
-  dashboardData.user;
-
-document.getElementById("totalExams").textContent =
-  dashboardData.totalExams;
-
-document.getElementById("averageScore").textContent =
-  `${dashboardData.averageScore}%`;
-
-document.getElementById("bestScore").textContent =
-  `${dashboardData.bestScore}%`;
-
-
-// ================= RECENT EXAMS =================
-
-const examTable = document.getElementById("examTable");
-
-dashboardData.exams.forEach((exam) => {
-
-  const row = document.createElement("tr");
-
-  row.innerHTML = `
-    <td>${exam.material}</td>
-    <td>${exam.score}</td>
-    <td>${exam.date}</td>
-    <td class="status-completed">Completed</td>
-  `;
-
-  examTable.appendChild(row);
-
-});
-
-
-/*
-BACKEND LATER:
-
-GET /users/me
-GET /exams/history
-GET /users/progress
-*/
-
-
-// ================= LOGOUT =================
-
-document
-  .getElementById("logoutBtn")
-  .addEventListener("click", () => {
-
-    /*
-    Later:
-    Remove/expire authentication.
-    */
-
-    window.location.href = "signin.html";
-
-  });
+loadDashboard();

@@ -1,210 +1,74 @@
-// ================= USER DATA =================
+if (!requireAuth()) throw new Error("Authentication required");
 
-const user = {
-  name: "Student",
-  email: "student@example.com"
-};
+const user = getAuth()?.user || {};
+const displayName = user.full_name || "Student";
+document.getElementById("profileName").textContent = displayName;
+document.getElementById("profileEmail").textContent = user.email || "";
+document.getElementById("infoName").textContent = displayName;
+document.getElementById("infoEmail").textContent = user.email || "";
+document.getElementById("memberSince").textContent = user.created_at
+  ? new Date(user.created_at).toLocaleDateString(undefined, { month: "long", year: "numeric" })
+  : "—";
+document.querySelector(".avatar").textContent = displayName.charAt(0).toUpperCase();
 
-
-document.getElementById("profileName").textContent =
-  user.name;
-
-document.getElementById("profileEmail").textContent =
-  user.email;
-
-document.getElementById("infoName").textContent =
-  user.name;
-
-document.getElementById("infoEmail").textContent =
-  user.email;
-
-
-// ================= PROFILE TABS =================
-
-const tabs =
-  document.querySelectorAll(".profile-tab");
-
-const panels =
-  document.querySelectorAll(".profile-panel");
-
-
-tabs.forEach((tab) => {
-
+document.querySelectorAll(".profile-tab").forEach((tab) => {
   tab.addEventListener("click", () => {
-
-    tabs.forEach(item =>
-      item.classList.remove("active")
-    );
-
-    panels.forEach(panel =>
-      panel.classList.remove("active")
-    );
-
-
+    document.querySelectorAll(".profile-tab").forEach((item) => item.classList.remove("active"));
+    document.querySelectorAll(".profile-panel").forEach((panel) => panel.classList.remove("active"));
     tab.classList.add("active");
-
-
-    document
-      .getElementById(tab.dataset.tab)
-      .classList.add("active");
-
+    document.getElementById(tab.dataset.tab).classList.add("active");
   });
-
 });
 
+async function loadProfile() {
+  try {
+    const data = await apiRequest("/exams/history");
+    document.getElementById("profileTotalExams").textContent = data.total_exams;
+    document.getElementById("profileAverage").textContent = `${data.average_score}%`;
+    document.getElementById("profileBest").textContent = `${data.best_score}%`;
 
-// ================= EXAM HISTORY =================
+    const chart = document.getElementById("progressChart");
+    const table = document.getElementById("historyTable");
+    chart.innerHTML = "";
+    table.innerHTML = "";
 
-let history = JSON.parse(
-  localStorage.getItem("quizgenHistory")
-) || [];
+    data.exams.slice().reverse().slice(-7).forEach((exam, index) => {
+      const item = document.createElement("div");
+      item.className = "chart-item";
+      const area = document.createElement("div");
+      area.className = "chart-bar-area";
+      const bar = document.createElement("div");
+      bar.className = "chart-bar";
+      bar.style.height = `${Math.max(0, Math.min(100, exam.score))}%`;
+      area.appendChild(bar);
+      const score = document.createElement("span");
+      score.className = "chart-score";
+      score.textContent = `${exam.score}%`;
+      const label = document.createElement("span");
+      label.className = "chart-label";
+      label.textContent = `Exam ${index + 1}`;
+      item.append(area, score, label);
+      chart.appendChild(item);
+    });
 
-
-// Temporary demo data
-
-if (history.length === 0) {
-
-  history = [
-    {
-      material: "Data Structures.pdf",
-      score: 85,
-      date: "12/08/2026"
-    },
-
-    {
-      material: "Operating Systems.pdf",
-      score: 72,
-      date: "10/08/2026"
-    },
-
-    {
-      material: "Machine Learning.pdf",
-      score: 91,
-      date: "08/08/2026"
-    }
-  ];
+    data.exams.forEach((exam) => {
+      const row = document.createElement("tr");
+      [exam.material, `${exam.score}%`, new Date(exam.date).toLocaleDateString()].forEach((value) => {
+        const cell = document.createElement("td");
+        cell.textContent = value;
+        row.appendChild(cell);
+      });
+      table.appendChild(row);
+    });
+  } catch (error) {
+    document.getElementById("historyTable").innerHTML = `<tr><td colspan="3">${error.message}</td></tr>`;
+  }
 }
 
-
-// ================= STATISTICS =================
-
-const scores =
-  history.map(exam => Number(exam.score));
-
-
-const average =
-  scores.length
-    ? Math.round(
-        scores.reduce((a, b) => a + b, 0) /
-        scores.length
-      )
-    : 0;
-
-
-const best =
-  scores.length
-    ? Math.max(...scores)
-    : 0;
-
-
-document.getElementById("profileTotalExams").textContent =
-  history.length;
-
-document.getElementById("profileAverage").textContent =
-  `${average}%`;
-
-document.getElementById("profileBest").textContent =
-  `${best}%`;
-
-
-// ================= PROGRESS GRAPH =================
-
-const chart =
-  document.getElementById("progressChart");
-
-
-history
-  .slice()
-  .reverse()
-  .slice(-7)
-  .forEach((exam, index) => {
-
-    const item =
-      document.createElement("div");
-
-    item.className = "chart-item";
-
-
-    item.innerHTML = `
-
-      <div class="chart-bar-area">
-
-        <div
-          class="chart-bar"
-          style="height: ${exam.score}%">
-        </div>
-
-      </div>
-
-      <span class="chart-score">
-        ${exam.score}%
-      </span>
-
-      <span class="chart-label">
-        Exam ${index + 1}
-      </span>
-
-    `;
-
-
-    chart.appendChild(item);
-
-  });
-
-
-// ================= HISTORY TABLE =================
-
-const historyTable =
-  document.getElementById("historyTable");
-
-
-history.forEach((exam) => {
-
-  const row =
-    document.createElement("tr");
-
-  row.innerHTML = `
-    <td>${exam.material}</td>
-    <td>${exam.score}%</td>
-    <td>${exam.date}</td>
-  `;
-
-  historyTable.appendChild(row);
-
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  clearAuth();
+  sessionStorage.removeItem("examSession");
+  window.location.href = "../index.html";
 });
 
-
-// ================= LOGOUT =================
-
-document
-  .getElementById("logoutBtn")
-  .addEventListener("click", () => {
-
-    /*
-    JWT logout will be handled
-    by the backend later.
-    */
-
-    window.location.href =
-      "signin.html";
-
-  });
-
-
-/*
-BACKEND LATER:
-
-GET /users/me
-GET /users/progress
-GET /exams/history
-*/
+loadProfile();
