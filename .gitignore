@@ -1,0 +1,6 @@
+# Local environment files (contain secrets)
+.env
+.env.*
+!.env.example
+
+QuizGen-AI-Backend/
