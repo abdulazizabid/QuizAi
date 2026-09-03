@@ -3,27 +3,58 @@
 // Stores the common backend address that API requests use.
 const API_BASE_URL = "http://127.0.0.1:8000/api/v1";
 const AUTH_STORAGE_KEY = "quizgenAuth";
+const MATERIAL_STORAGE_KEY = "quizgenPendingMaterial";
+const EXAM_STORAGE_KEY = "quizgenExamSession";
+const RESULT_STORAGE_KEY = "quizgenExamResult";
 
-// Reads the current authentication details from browser storage.
-function getAuth() {
+function readStoredJson(key, storage = localStorage) {
   try {
-    return JSON.parse(localStorage.getItem(AUTH_STORAGE_KEY));
+    return JSON.parse(storage.getItem(key));
   } catch {
+    storage.removeItem(key);
     return null;
   }
 }
 
+function clearWorkflowState() {
+  localStorage.removeItem(MATERIAL_STORAGE_KEY);
+  localStorage.removeItem(EXAM_STORAGE_KEY);
+  localStorage.removeItem(RESULT_STORAGE_KEY);
+  Object.keys(localStorage)
+    .filter((key) => key.startsWith("quizgenAnswers:"))
+    .forEach((key) => localStorage.removeItem(key));
+  sessionStorage.removeItem("examSession");
+  sessionStorage.removeItem("examResult");
+}
+
+// Reads the current authentication details from browser storage.
+function getAuth() {
+  return readStoredJson(AUTH_STORAGE_KEY);
+}
+
 // Saves or clears the active user's authentication details.
 function saveAuth(auth) {
+  const existingUserId = getAuth()?.user?.id;
+  if (existingUserId && existingUserId !== auth?.user?.id) clearWorkflowState();
   localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(auth));
 }
 
 function clearAuth() {
   localStorage.removeItem(AUTH_STORAGE_KEY);
+  clearWorkflowState();
 }
 
 function isAuthenticated() {
   return Boolean(getAuth()?.access_token);
+}
+
+function redirectToSignIn() {
+  if (!window.location.pathname.endsWith("/signin.html")) {
+    const target = window.location.pathname.includes("/pages/")
+      ? "signin.html"
+      : "pages/signin.html";
+    window.location.replace(target);
+  }
 }
 
 // Sends an authenticated request to the backend and refreshes expired access tokens.
@@ -47,10 +78,16 @@ async function apiRequest(path, options = {}) {
       response = await fetch(`${API_BASE_URL}${path}`, { ...options, headers });
     } else {
       clearAuth();
+      redirectToSignIn();
+      throw new Error("Your session expired. Please sign in again.");
     }
   }
 
   const data = await response.json().catch(() => ({}));
+  if (response.status === 401 && path !== "/auth/login") {
+    clearAuth();
+    redirectToSignIn();
+  }
   if (!response.ok) throw new Error(data.detail || "Request failed");
   return data;
 }

@@ -1,13 +1,18 @@
 if (!requireAuth()) throw new Error("Authentication required");
 
-const session = JSON.parse(sessionStorage.getItem("examSession"));
+const session = readStoredJson("examSession", sessionStorage) || readStoredJson(EXAM_STORAGE_KEY);
 if (!session?.questions?.length) {
   window.location.replace("create-exam.html");
   throw new Error("No active exam");
 }
+sessionStorage.setItem("examSession", JSON.stringify(session));
 
 const questions = session.questions;
-const answers = new Array(questions.length).fill("");
+const answersStorageKey = `quizgenAnswers:${session.attempt_id}`;
+const storedAnswers = readStoredJson(answersStorageKey);
+const answers = Array.isArray(storedAnswers) && storedAnswers.length === questions.length
+  ? storedAnswers
+  : new Array(questions.length).fill("");
 let currentQuestion = 0;
 let submitting = false;
 
@@ -37,6 +42,7 @@ function renderQuestion() {
       input.checked = answers[currentQuestion] === option;
       input.addEventListener("change", () => {
         answers[currentQuestion] = option;
+        localStorage.setItem(answersStorageKey, JSON.stringify(answers));
         renderNavigator();
       });
       const text = document.createElement("span");
@@ -51,6 +57,7 @@ function renderQuestion() {
     textarea.value = answers[currentQuestion];
     textarea.addEventListener("input", () => {
       answers[currentQuestion] = textarea.value;
+      localStorage.setItem(answersStorageKey, JSON.stringify(answers));
       renderNavigator();
     });
     answerArea.appendChild(textarea);
@@ -106,7 +113,10 @@ async function submitExam(autoSubmitted = false) {
       })
     });
     sessionStorage.setItem("examResult", JSON.stringify(result));
+    localStorage.setItem(RESULT_STORAGE_KEY, JSON.stringify(result));
     sessionStorage.removeItem("examSession");
+    localStorage.removeItem(EXAM_STORAGE_KEY);
+    localStorage.removeItem(answersStorageKey);
     window.location.href = "result.html";
   } catch (error) {
     hideLoading();

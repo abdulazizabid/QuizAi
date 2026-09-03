@@ -1,6 +1,6 @@
 if (!requireAuth()) throw new Error("Authentication required");
 
-const examResult = JSON.parse(sessionStorage.getItem("examResult"));
+const examResult = readStoredJson("examResult", sessionStorage) || readStoredJson(RESULT_STORAGE_KEY);
 const resultContainer = document.getElementById("resultContainer");
 
 if (!examResult) {

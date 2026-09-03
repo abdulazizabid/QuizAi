@@ -16,6 +16,11 @@ const duration = document.getElementById("duration");
 // Finds the configuration form and the element used for validation messages.
 const examForm = document.getElementById("examForm");
 const examMessage = document.getElementById("examMessage");
+let pendingMaterial = readStoredJson(MATERIAL_STORAGE_KEY);
+
+if (pendingMaterial?.id && pendingMaterial?.filename) {
+  fileName.textContent = `Ready: ${pendingMaterial.filename} (already uploaded)`;
+}
 
 
 // ================= FILE-PICKER SELECTION =================
@@ -25,6 +30,8 @@ fileInput.addEventListener("change", () => {
 
   // Displays the first selected file when at least one file is available.
   if (fileInput.files.length > 0) {
+    pendingMaterial = null;
+    localStorage.removeItem(MATERIAL_STORAGE_KEY);
     showFile(fileInput.files[0]);
   }
 
@@ -64,7 +71,8 @@ uploadArea.addEventListener("drop", (event) => {
 
   // Copies the dropped files into the file input and displays the file name.
   if (file) {
-
+    pendingMaterial = null;
+    localStorage.removeItem(MATERIAL_STORAGE_KEY);
     fileInput.files = event.dataTransfer.files;
 
     showFile(file);
@@ -114,7 +122,7 @@ examForm.addEventListener("submit", async (event) => {
 
 
   // Requires a study-material file before an exam can be created.
-  if (fileInput.files.length === 0) {
+  if (fileInput.files.length === 0 && !pendingMaterial?.id) {
     examMessage.textContent =
       "Please upload a study material first.";
     return;
@@ -139,9 +147,15 @@ examForm.addEventListener("submit", async (event) => {
   submitButton.disabled = true;
   try {
     showLoading("Reading your material", "Extracting text, formulas, and important topics...");
-    const formData = new FormData();
-    formData.append("file", fileInput.files[0]);
-    const material = await apiRequest("/materials/upload", { method: "POST", body: formData });
+    let material = pendingMaterial;
+    if (fileInput.files.length > 0) {
+      const formData = new FormData();
+      formData.append("file", fileInput.files[0]);
+      material = await apiRequest("/materials/upload", { method: "POST", body: formData });
+      pendingMaterial = material;
+      localStorage.setItem(MATERIAL_STORAGE_KEY, JSON.stringify(material));
+      fileName.textContent = `Ready: ${material.filename} (uploaded)`;
+    }
 
     // Generates an exam using the uploaded material and selected settings.
     showLoading("Generating your exam", "Creating grounded, varied questions from the most important topics...");
@@ -158,7 +172,9 @@ examForm.addEventListener("submit", async (event) => {
     // Creates an attempt and saves it for the timed exam page.
     const attempt = await apiRequest(`/exams/${exam.id}/attempts`, { method: "POST" });
     sessionStorage.setItem("examSession", JSON.stringify(attempt));
+    localStorage.setItem(EXAM_STORAGE_KEY, JSON.stringify(attempt));
     sessionStorage.removeItem("examResult");
+    localStorage.removeItem(RESULT_STORAGE_KEY);
     window.location.href = "exam.html";
   } catch (error) {
     hideLoading();
