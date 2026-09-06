@@ -6,6 +6,22 @@ const AUTH_STORAGE_KEY = "quizgenAuth";
 const MATERIAL_STORAGE_KEY = "quizgenPendingMaterial";
 const EXAM_STORAGE_KEY = "quizgenExamSession";
 const RESULT_STORAGE_KEY = "quizgenExamResult";
+const DEFAULT_API_TIMEOUT_MS = 8000;
+
+async function fetchWithTimeout(url, options = {}, timeoutMs = DEFAULT_API_TIMEOUT_MS) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } catch (error) {
+    if (error.name === "AbortError") {
+      throw new Error("The backend is taking too long to respond. Make sure it is running on port 8000.");
+    }
+    throw new Error("Cannot reach the backend. Make sure it is running on port 8000.");
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
 
 function readStoredJson(key, storage = localStorage) {
   try {
@@ -60,22 +76,35 @@ function redirectToSignIn() {
 // Sends an authenticated request to the backend and refreshes expired access tokens.
 async function apiRequest(path, options = {}) {
   const auth = getAuth();
-  const headers = { ...(options.headers || {}) };
-  if (!(options.body instanceof FormData)) headers["Content-Type"] = "application/json";
+  const { timeoutMs = DEFAULT_API_TIMEOUT_MS, ...fetchOptions } = options;
+  const headers = { ...(fetchOptions.headers || {}) };
+  if (!(fetchOptions.body instanceof FormData)) headers["Content-Type"] = "application/json";
   if (auth?.access_token) headers.Authorization = `Bearer ${auth.access_token}`;
 
-  let response = await fetch(`${API_BASE_URL}${path}`, { ...options, headers });
+  let response = await fetchWithTimeout(
+    `${API_BASE_URL}${path}`,
+    { ...fetchOptions, headers },
+    timeoutMs
+  );
   if (response.status === 401 && auth?.refresh_token && path !== "/auth/refresh") {
-    const refreshResponse = await fetch(`${API_BASE_URL}/auth/refresh`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ refresh_token: auth.refresh_token })
-    });
+    const refreshResponse = await fetchWithTimeout(
+      `${API_BASE_URL}/auth/refresh`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ refresh_token: auth.refresh_token })
+      },
+      timeoutMs
+    );
     if (refreshResponse.ok) {
       const renewed = await refreshResponse.json();
       saveAuth(renewed);
       headers.Authorization = `Bearer ${renewed.access_token}`;
-      response = await fetch(`${API_BASE_URL}${path}`, { ...options, headers });
+      response = await fetchWithTimeout(
+        `${API_BASE_URL}${path}`,
+        { ...fetchOptions, headers },
+        timeoutMs
+      );
     } else {
       clearAuth();
       redirectToSignIn();

@@ -15,6 +15,28 @@ const answers = Array.isArray(storedAnswers) && storedAnswers.length === questio
   : new Array(questions.length).fill("");
 let currentQuestion = 0;
 let submitting = false;
+let timerInterval;
+
+// Browsers may restore this page from the back/forward cache with its old
+// JavaScript state still alive. Never resume or resubmit an attempt that has
+// already produced a result.
+window.addEventListener("pageshow", (event) => {
+  if (!event.persisted) return;
+  const activeSession = readStoredJson("examSession", sessionStorage)
+    || readStoredJson(EXAM_STORAGE_KEY);
+  if (activeSession?.attempt_id === session.attempt_id) {
+    clearInterval(timerInterval);
+    timerInterval = setInterval(updateTimer, 1000);
+    updateTimer();
+    return;
+  }
+  clearInterval(timerInterval);
+  const completedResult = readStoredJson("examResult", sessionStorage)
+    || readStoredJson(RESULT_STORAGE_KEY);
+  window.location.replace(completedResult ? "result.html" : "create-exam.html");
+});
+
+window.addEventListener("pagehide", () => clearInterval(timerInterval));
 
 document.getElementById("materialName").textContent = session.material;
 const questionNumber = document.getElementById("questionNumber");
@@ -104,6 +126,7 @@ async function submitExam(autoSubmitted = false) {
   try {
     const result = await apiRequest(`/attempts/${session.attempt_id}/submit`, {
       method: "POST",
+      timeoutMs: 180000,
       body: JSON.stringify({
         auto_submitted: autoSubmitted,
         answers: questions.map((question, index) => ({
@@ -117,7 +140,9 @@ async function submitExam(autoSubmitted = false) {
     sessionStorage.removeItem("examSession");
     localStorage.removeItem(EXAM_STORAGE_KEY);
     localStorage.removeItem(answersStorageKey);
-    window.location.href = "result.html";
+    // Replace the exam entry so Back returns to exam setup instead of restoring
+    // a completed attempt and triggering its expired auto-submit timer.
+    window.location.replace("result.html");
   } catch (error) {
     hideLoading();
     submitting = false;
@@ -132,7 +157,7 @@ function updateTimer() {
   if (seconds <= 0) submitExam(true);
 }
 
-const timerInterval = setInterval(updateTimer, 1000);
+timerInterval = setInterval(updateTimer, 1000);
 document.getElementById("submitExamBtn").addEventListener("click", () => submitExam(false));
 updateTimer();
 renderQuestion();

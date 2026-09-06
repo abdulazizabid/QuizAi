@@ -151,7 +151,11 @@ examForm.addEventListener("submit", async (event) => {
     if (fileInput.files.length > 0) {
       const formData = new FormData();
       formData.append("file", fileInput.files[0]);
-      material = await apiRequest("/materials/upload", { method: "POST", body: formData });
+      material = await apiRequest("/materials/upload", {
+        method: "POST",
+        body: formData,
+        timeoutMs: 180000
+      });
       pendingMaterial = material;
       localStorage.setItem(MATERIAL_STORAGE_KEY, JSON.stringify(material));
       fileName.textContent = `Ready: ${material.filename} (uploaded)`;
@@ -161,6 +165,7 @@ examForm.addEventListener("submit", async (event) => {
     showLoading("Generating your exam", "Creating grounded, varied questions from the most important topics...");
     const exam = await apiRequest("/exams/generate", {
       method: "POST",
+      timeoutMs: 180000,
       body: JSON.stringify({
         material_id: material.id,
         mcq_count: mcq,
