@@ -17,6 +17,8 @@ const duration = document.getElementById("duration");
 const examForm = document.getElementById("examForm");
 const examMessage = document.getElementById("examMessage");
 let pendingMaterial = readStoredJson(MATERIAL_STORAGE_KEY);
+let creatingExam = false;
+let generatedExam = null;
 
 if (pendingMaterial?.id && pendingMaterial?.filename) {
   fileName.textContent = `Ready: ${pendingMaterial.filename} (already uploaded)`;
@@ -118,6 +120,7 @@ examForm.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   // Clears any validation message left by an earlier submission attempt.
+  if (creatingExam) return;
   examMessage.textContent = "";
 
 
@@ -132,6 +135,13 @@ examForm.addEventListener("submit", async (event) => {
   // Reads the requested MCQ and short-answer counts as numbers.
   const mcq = Number(mcqCount.value);
   const short = Number(shortCount.value);
+  const minutes = Number(duration.value);
+  if (!Number.isInteger(mcq) || !Number.isInteger(short) || mcq < 0 || short < 0 ||
+      mcq > 50 || short > 20 || mcq + short > 50 ||
+      !Number.isInteger(minutes) || minutes < 1 || minutes > 180) {
+    examMessage.textContent = "Use whole numbers: up to 50 questions total, up to 20 short answers, and 1–180 minutes.";
+    return;
+  }
 
 
   // Requires the exam to contain at least one question.
@@ -145,10 +155,11 @@ examForm.addEventListener("submit", async (event) => {
   // Prevents repeat submissions while the backend processes the material.
   const submitButton = examForm.querySelector("button[type='submit']");
   submitButton.disabled = true;
+  creatingExam = true;
   try {
     showLoading("Reading your material", "Extracting text, formulas, and important topics...");
     let material = pendingMaterial;
-    if (fileInput.files.length > 0) {
+    if (!material?.id && fileInput.files.length > 0) {
       const formData = new FormData();
       formData.append("file", fileInput.files[0]);
       material = await apiRequest("/materials/upload", {
@@ -163,27 +174,31 @@ examForm.addEventListener("submit", async (event) => {
 
     // Generates an exam using the uploaded material and selected settings.
     showLoading("Generating your exam", "Creating grounded, varied questions from the most important topics...");
-    const exam = await apiRequest("/exams/generate", {
+    const configuration = JSON.stringify({ material_id: material.id, mcq_count: mcq,
+      short_count: short, duration_minutes: minutes });
+    const exam = generatedExam?.configuration === configuration ? generatedExam.exam : await apiRequest("/exams/generate", {
       method: "POST",
       timeoutMs: 180000,
-      body: JSON.stringify({
-        material_id: material.id,
-        mcq_count: mcq,
-        short_count: short,
-        duration_minutes: Number(duration.value)
-      })
+      body: configuration
     });
+    generatedExam = { configuration, exam };
 
     // Creates an attempt and saves it for the timed exam page.
-    const attempt = await apiRequest(`/exams/${exam.id}/attempts`, { method: "POST" });
+    const attempt = await apiRequest(`/exams/${exam.id}/attempts`, { method: "POST", timeoutMs: 30000 });
+    if (!attempt.attempt_id || !Array.isArray(attempt.questions) ||
+        attempt.questions.filter(q => q.type === "mcq").length !== mcq ||
+        attempt.questions.filter(q => q.type === "short").length !== short) {
+      throw new Error("The exam response did not match your requested question counts. Please retry.");
+    }
     sessionStorage.setItem("examSession", JSON.stringify(attempt));
     localStorage.setItem(EXAM_STORAGE_KEY, JSON.stringify(attempt));
     sessionStorage.removeItem("examResult");
     localStorage.removeItem(RESULT_STORAGE_KEY);
-    window.location.href = "exam.html";
+    window.location.href = `exam.html?attempt=${encodeURIComponent(attempt.attempt_id)}`;
   } catch (error) {
     hideLoading();
     examMessage.textContent = error.message;
     submitButton.disabled = false;
+    creatingExam = false;
   }
 });

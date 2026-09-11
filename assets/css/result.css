@@ -76,6 +76,14 @@ body {
   border-left: 5px solid #d9534f;
 }
 
+.review-card.partial {
+  border-left: 5px solid #a66a00;
+}
+
+.partial .review-status {
+  color: #a66a00;
+}
+
 .review-top {
   display: flex;
   justify-content: space-between;

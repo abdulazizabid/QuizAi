@@ -1,6 +1,11 @@
 if (!requireAuth()) throw new Error("Authentication required");
 
-const session = readStoredJson("examSession", sessionStorage) || readStoredJson(EXAM_STORAGE_KEY);
+async function initializeExam() {
+let session = readStoredJson("examSession", sessionStorage) || readStoredJson(EXAM_STORAGE_KEY);
+const attemptId = new URLSearchParams(window.location.search).get("attempt");
+if (attemptId && (session?.attempt_id !== attemptId || !session?.questions?.length)) {
+  session = await apiRequest(`/attempts/${encodeURIComponent(attemptId)}`, { timeoutMs: 30000 });
+}
 if (!session?.questions?.length) {
   window.location.replace("create-exam.html");
   throw new Error("No active exam");
@@ -161,3 +166,9 @@ timerInterval = setInterval(updateTimer, 1000);
 document.getElementById("submitExamBtn").addEventListener("click", () => submitExam(false));
 updateTimer();
 renderQuestion();
+}
+
+initializeExam().catch(error => {
+  hideLoading();
+  document.getElementById("questionText").textContent = `${error.message} Reload this page to retry.`;
+});

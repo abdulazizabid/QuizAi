@@ -13,7 +13,8 @@ if (!examResult) {
 
   examResult.results.forEach((item, index) => {
     const card = document.createElement("article");
-    card.className = `review-card ${item.correct ? "correct" : "incorrect"}`;
+    const gradingStatus = item.grading_status || (item.correct ? "correct" : item.awarded_marks > 0 ? "partial" : "incorrect");
+    card.className = `review-card ${gradingStatus}`;
 
     const top = document.createElement("div");
     top.className = "review-top";
@@ -21,7 +22,8 @@ if (!examResult) {
     number.textContent = `Question ${index + 1}`;
     const status = document.createElement("span");
     status.className = "review-status";
-    status.textContent = `${item.awarded_marks}/${item.max_marks} mark${item.max_marks === 1 ? "" : "s"}`;
+    const statusLabel = { correct: "Correct", partial: "Partially correct", incorrect: "Incorrect" }[gradingStatus];
+    status.textContent = `${statusLabel} · ${item.awarded_marks}/${item.max_marks} mark${item.max_marks === 1 ? "" : "s"}`;
     top.append(number, status);
 
     const title = document.createElement("h3");
@@ -33,7 +35,7 @@ if (!examResult) {
     if (item.type === "short") {
       card.appendChild(answerBlock(
         "Evaluation",
-        `${item.feedback} Factual: ${Math.round(item.factual_score * 100)}%, semantic: ${Math.round(item.semantic_score * 100)}%.`
+        item.feedback
       ));
     }
 
